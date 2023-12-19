@@ -3,8 +3,6 @@ from flask_sqlalchemy import SQLAlchemy
 db = SQLAlchemy()
 
 
-###############################################################################
-
 class Starships(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), unique=True, nullable=False)
@@ -37,13 +35,8 @@ class Starships(db.Model):
             "passengers": self.passengers,
             "cargo_capacity": self.cargo_capacity,
             "consumables": self.consumables,
-            
-          
-
         }
 
-##################################################################################
-    
 class Planets(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), unique=True, nullable=False)
