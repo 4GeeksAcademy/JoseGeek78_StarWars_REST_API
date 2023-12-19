@@ -9,7 +9,7 @@ from flask_cors import CORS
 from utils import APIException, generate_sitemap
 from admin import setup_admin
 from models import db, User, Characters, Planets, Starships, Fav_Characters, Fav_Planets, Fav_Starships
-#from models import Person
+
 
 app = Flask(__name__)
 app.url_map.strict_slashes = False
@@ -26,12 +26,12 @@ db.init_app(app)
 CORS(app)
 setup_admin(app)
 
-# Handle/serialize errors like a JSON object
+t
 @app.errorhandler(APIException)
 def handle_invalid_usage(error):
     return jsonify(error.to_dict()), error.status_code
 
-# generate sitemap with all your endpoints
+
 @app.route('/')
 def sitemap():
     return generate_sitemap(app)
@@ -47,7 +47,6 @@ def handle_hello():
     all_users = list(map(lambda x: x.serialize(), users))
     return jsonify(message="Users", users=all_users), 200
 
-# GET ONE USER:
 
 @app.route('/user/<int:user_id>', methods=['GET'])
 def get_user(user_id):
@@ -59,7 +58,6 @@ def get_user(user_id):
     serialized_user = user.serialize()
     return jsonify({'user': serialized_user}), 200
 
-# ADD USERS:
 
 @app.route('/user', methods=['POST'])
 def add_new_user():
@@ -71,7 +69,6 @@ def add_new_user():
 
     return jsonify(request_body_user), 200
 
-# DELETE ONE USER:
 
 @app.route('/user/<int:user_id>', methods=['DELETE'])
 def delete_user(user_id):
@@ -85,9 +82,6 @@ def delete_user(user_id):
 
     return jsonify({'message': f'User with ID {user_id} deleted successfully'}), 200
 
-############################## CHARACTERS #################################################
-
-# GET ALL CHARACTERS:
 
 @app.route('/characters', methods=['GET'])
 def get_characters():
@@ -99,7 +93,6 @@ def get_characters():
     all_characters = list(map(lambda x: x.serialize(), characters))
     return jsonify(message="Characters", characters=all_characters), 200
 
-# ADD A CHARACTER
 
 @app.route('/characters', methods=['POST'])
 def add_new_character():
@@ -111,7 +104,6 @@ def add_new_character():
 
     return jsonify(request_body_character), 200
 
-# DELETE A CHARACTER
 
 @app.route('/characters/<int:characters_id>', methods=['DELETE'])
 def delete_character(characters_id):
@@ -125,9 +117,6 @@ def delete_character(characters_id):
 
     return jsonify({'message': f'Character with ID {characters_id} deleted successfully'}), 200
 
-############################## PLANETS #################################################
-
-# GET ALL PLANETS:
 
 @app.route('/planets', methods=['GET'])
 def get_planets():
@@ -139,7 +128,6 @@ def get_planets():
     all_planets = list(map(lambda x: x.serialize(), planets))
     return jsonify(message="Planets", planets=all_planets), 200
 
-# ADD A PLANET:
 
 @app.route('/planets', methods=['POST'])
 def add_new_planet():
@@ -151,7 +139,6 @@ def add_new_planet():
 
     return jsonify(request_body_planet), 200
 
-# DELETE A PLANET
 
 @app.route('/planets/<int:planets_id>', methods=['DELETE'])
 def delete_planet(planets_id):
@@ -165,9 +152,6 @@ def delete_planet(planets_id):
 
     return jsonify({'message': f'Planet with ID {planets_id} deleted successfully'}), 200
 
-################################# STARSHIPS ##############################################
-
-# GET ALL STARSHIPS:
 
 @app.route('/starships', methods=['GET'])
 def get_starships():
@@ -179,7 +163,6 @@ def get_starships():
     all_starships = list(map(lambda x: x.serialize(), starships))
     return jsonify(message="Starships", starships=all_starships), 200
 
-# ADD A STARSHIP:
 
 @app.route('/starships', methods=['POST'])
 def add_new_starship():
@@ -191,7 +174,6 @@ def add_new_starship():
 
     return jsonify(request_body_starship), 200
 
-# DELETE A STARSHIP
 
 @app.route('/starships/<int:starships_id>', methods=['DELETE'])
 def delete_starship(starships_id):
@@ -205,9 +187,6 @@ def delete_starship(starships_id):
 
     return jsonify({'message': f'Starship with ID {starships_id} deleted successfully'}), 200
 
-############################## FAV CHARACTERS ###########################################
-
-# GET ALL FAV_CHARACTERS:
 
 @app.route('/fav_characters', methods=['GET'])
 def get_fav_characters():
@@ -215,7 +194,6 @@ def get_fav_characters():
     fav_all_characters = list(map(lambda x: x.serialize(), fav_characters))
     return jsonify(message="Fav_characters", fav_characters=fav_all_characters), 200
 
-# GET ALL FAV_CHARACTERS OF A USER:
 
 @app.route('/fav_characters/<int:user>', methods=['GET'])
 def get_fav_characters_of_user(user):
@@ -223,7 +201,6 @@ def get_fav_characters_of_user(user):
     fav_all_characters = list(map(lambda x: x.serialize(), fav_characters))
     return jsonify(message="Fav_characters", fav_characters=fav_all_characters), 200
 
-# POST A FAV CHARACTER: 
 
 @app.route('/fav_characters', methods=['POST'])
 def add_new_fav_character():
@@ -235,7 +212,6 @@ def add_new_fav_character():
 
     return jsonify(request_body_fav_character), 200
 
-# DELETE A FAV CHARACTER
 
 @app.route('/fav_characters/<int:fav_characters_id>', methods=['DELETE'])
 def delete_fav_character(fav_characters_id):
@@ -250,26 +226,19 @@ def delete_fav_character(fav_characters_id):
     return jsonify({'message': f'Fav character with ID {fav_characters_id} deleted successfully'}), 200
 
 
-############################## FAV PLANETS ###########################################
-
-# GET ALL FAV_PLANETS:
-
 @app.route('/fav_planets', methods=['GET'])
 def get_fav_planets():
     fav_planets = Fav_Planets.query.all()
     fav_all_planets = list(map(lambda x: x.serialize(), fav_planets))
     return jsonify(message="Fav_planets", fav_planets=fav_all_planets), 200
 
-# GET ALL FAV_PLANETS OF A USER:
 
 @app.route('/fav_planets/<int:user>', methods=['GET'])
 def get_fav_planets_of_user(user):
     fav_planets = Fav_Planets.query.filter_by(user=user).all()
     fav_all_planets = list(map(lambda x: x.serialize(), fav_planets))
-    #or:  fav_all_planets = [planet.serialize() for planet in fav_planets]
     return jsonify(message={'message': f'Fav planets of user {user}'}, fav_planets=fav_all_planets), 200
-
-# POST A FAV_PLANET: 
+ 
 
 @app.route('/fav_planets', methods=['POST'])
 def add_new_fav_planet():
@@ -281,7 +250,6 @@ def add_new_fav_planet():
 
     return jsonify(request_body_fav_planet), 200
 
-# DELETE A FAV PLANET
 
 @app.route('/fav_planets/<int:fav_planets_id>', methods=['DELETE'])
 def delete_fav_planet(fav_planets_id):
@@ -295,9 +263,6 @@ def delete_fav_planet(fav_planets_id):
 
     return jsonify({'message': f'Fav planet with ID {fav_planets_id} deleted successfully'}), 200
 
-################################# FAV STARSHIPS ######################################
-
-# GET ALL FAV_STARSHIPS
 
 @app.route('/fav_starships', methods=['GET'])
 def get_fav_starships():
@@ -305,15 +270,13 @@ def get_fav_starships():
     fav_all_starships = list(map(lambda x: x.serialize(), fav_starships))
     return jsonify(message="Fav_starships", fav_starships=fav_all_starships), 200
 
-# GET ALL FAV_STARSHIPS OF A USER:
 
 @app.route('/fav_starships/<int:user>', methods=['GET'])
 def get_fav_starships_of_user(user):
     fav_starships = Fav_Starships.query.filter_by(user=user).all()
     fav_all_starships = list(map(lambda x: x.serialize(), fav_starships))
     return jsonify(message={'message': f'Fav starships of user {user}'}, fav_starships=fav_all_starships), 200
-
-# POST A FAV_STARSHIP: 
+ 
 
 @app.route('/fav_starships', methods=['POST'])
 def add_new_fav_starship():
@@ -325,7 +288,6 @@ def add_new_fav_starship():
 
     return jsonify(request_body_fav_starship), 200
 
-# DELETE A FAV STARSHIP
 
 @app.route('/fav_starships/<int:fav_starships_id>', methods=['DELETE'])
 def delete_fav_starship(fav_starships_id):
@@ -339,12 +301,7 @@ def delete_fav_starship(fav_starships_id):
 
     return jsonify({'message': f'Fav starship with ID {fav_starships_id} deleted successfully'}), 200
 
-###########################################################################################
 
-# this only runs if `$ python src/app.py` is executed
 if __name__ == '__main__':
     PORT = int(os.environ.get('PORT', 3000))
     app.run(host='0.0.0.0', port=PORT, debug=False)
-
-
-# pipenv run python src/app.py
