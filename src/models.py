@@ -15,8 +15,6 @@ class Starships(db.Model):
     passengers = db.Column(db.Integer)
     cargo_capacity = db.Column(db.Integer)
     consumables = db.Column(db.Integer)
-    # fav_starship = db.Column(db.Integer, db.ForeignKey('fav_starships.id'))
-    # fav_starship_relationship = db.relationship("Fav_Starships", uselist=False)
 
 
     def __repr__(self):
@@ -47,8 +45,6 @@ class Planets(db.Model):
     climate = db.Column(db.String(50))
     terrain = db.Column(db.String(50))
     surface_water = db.Column(db.Integer)
-#     fav_planet = Column(Integer, ForeignKey('fav_planets.id'))
-#     fav_planet_relationship = relationship("Fav_planets", uselist=False)
 
 
     def __repr__(self):
@@ -81,8 +77,6 @@ class Characters(db.Model):
     planet_relationship = db.relationship(Planets)
     starship = db.Column(db.Integer, db.ForeignKey('starships.id'))
     starship_relationship = db.relationship(Starships)
-#     fav_character = Column(Integer, ForeignKey('fav_characters.id'))
-#     fav_character_relationship = relationship("Fav_Characters", uselist=False)
 
 
     def __repr__(self):
@@ -103,8 +97,6 @@ class Characters(db.Model):
             "starship": self.starship,
         }
     
-############################ USERS ####################################################
-
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(120), unique=True, nullable=False)
@@ -118,10 +110,7 @@ class User(db.Model):
         return {
             "id": self.id,
             "email": self.email,
-            # do not serialize the password, its a security breach
         }
-    
-############################## FAVS ####################################################
 
 class Fav_Planets(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -173,88 +162,3 @@ class Fav_Characters(db.Model):
             "character": self.character,
             "user": self.user,
         }
-    
-################################################################################
-
-# STAR WARS DATABASE: 
-    
-# class Users(Base):
-#     __tablename__ = 'users'
-#     id = Column(Integer, primary_key=True)
-#     name = Column(String(50), unique=True)
-#     email = Column(String(50), unique=True)
-
-# class Starships(Base):
-#     __tablename__ = 'starships'
-#     id = Column(Integer, primary_key=True)
-#     name = Column(String(50), unique=True, nullable=False)
-#     model = Column(String(50))
-#     starship_class = Column(String(50))
-#     manufacturer = Column(String(50))
-#     cost_in_credits = Column(Integer)
-#     length = Column(Integer)
-#     crew = Column(Integer)
-#     passengers = Column(Integer)
-#     cargo_capacity = Column(Integer)
-#     consumables = Column(Integer)
-#     fav_starship = Column(Integer, ForeignKey('fav_starships.id'))
-#     fav_starship_relationship = relationship("Fav_tarships", uselist=False)
-
-# class Fav_Starships(Base):
-#     __tablename__ = 'fav_starships'
-#     id = Column(Integer, primary_key=True)
-#     starship = Column(Integer, ForeignKey('starships.id'))
-#     starship_relationship = relationship(Starships)
-#     user = Column(Integer, ForeignKey('users.id'))
-#     user_relationship = relationship(Users)
-    
-    
-# class Planets(Base):
-#     __tablename__ = 'planets'
-#     id = Column(Integer, primary_key=True)
-#     name = Column(String(50), unique=True, nullable=False)
-#     rotation_period = Column(Integer)
-#     diameter = Column(Integer)
-#     rotation_period = Column(Integer)
-#     gravity = Column(String(50))
-#     population = Column(Integer)
-#     climate = Column(String(50))
-#     terrain = Column(String(50))
-#     surface_water = Column(Integer)
-#     fav_planet = Column(Integer, ForeignKey('fav_planets.id'))
-#     fav_planet_relationship = relationship("Fav_planets", uselist=False)
-
-# class Fav_Planets(Base):
-#     __tablename__ = 'fav_planets'
-#     id = Column(Integer, primary_key=True)
-#     planet = Column(Integer, ForeignKey('planets.id'))
-#     planet_relationship = relationship(Planets)
-#     user = Column(Integer, ForeignKey('users.id'))
-#     user_relationship = relationship(Users)
-    
-# class Characters(Base):
-#     __tablename__ = 'characters'
-#     id = Column(Integer, primary_key=True)
-#     name = Column(String(50), unique=True)
-#     mass = Column(Integer)
-#     height = Column(Integer)
-#     hair_color = Column(String(50))
-#     skin_color = Column(String(50))
-#     eye_color = Column(String(50))
-#     birth_year = Column(String(50))
-#     gender = Column(String(50))
-#     planet = Column(Integer, ForeignKey('planets.id'))
-#     planet_relationship = relationship(Planets)
-#     starship = Column(Integer, ForeignKey('starships.id'))
-#     starship_relationship = relationship(Starships)
-#     fav_character = Column(Integer, ForeignKey('fav_characters.id'))
-#     fav_character_relationship = relationship("Fav_Characters", uselist=False)
-    
-
-# class Fav_Characters(Base):
-#     __tablename__ = 'fav_characters'
-#     id = Column(Integer, primary_key=True)
-#     character = Column(Integer, ForeignKey('characters.id'))
-#     character_relationship = relationship(Characters, uselist=False)
-#     user = Column(Integer, ForeignKey('users.id'))
-#     user_relationship = relationship(Users)
