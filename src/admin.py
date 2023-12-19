@@ -13,8 +13,6 @@ def setup_admin(app):
     admin.add_view(ModelView(User, db.session))
 
 
-    #######################################################
-
     admin.add_view(ModelView(Starships, db.session))
     admin.add_view(ModelView(Fav_Starships, db.session))
     admin.add_view(ModelView(Planets, db.session))
